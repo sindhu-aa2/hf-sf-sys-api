@@ -1,0 +1,8 @@
+sf:
+  query:
+    fetch:
+      workOrder: Select Id From WorkOrder where Purchase_Order_No__c =:purchaseOrderNo and Customer_Reference_Number__c=:workTicketNumber
+      serviceAppointment: Select Id From ServiceAppointment where ParentID=:workOrderId
+      account: SELECT Name,Id,ShippingPostalCode FROM Account where RecordTypeID =:RecordTypeID and Name=:Name and ShippingPostalCode=:Zipcode
+      product: SELECT Id FROM Product2 WHERE External_ID__c=:Material AND IsActive = TRUE AND Company__c = 'HFG USA'
+    

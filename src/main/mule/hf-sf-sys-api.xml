@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns="http://www.mulesoft.org/schema/mule/core" 
+xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
+xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" 
+xmlns:http="http://www.mulesoft.org/schema/mule/http" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+   
+    <flow name="hf-sf-sys-api-main">
+        <http:listener config-ref="hf-sf-sys-api-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="hf-sf-sys-api-config" />
+    </flow>
+    <flow name="hf-sf-sys-api-console">
+        <http:listener config-ref="hf-sf-sys-api-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="hf-sf-sys-api-config" />
+    </flow>
+    <flow name="get:\account:hf-sf-sys-api-spec-config">
+       <ee:transform doc:name="Set Input Param">
+            <ee:message>
+            </ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="queryName" ><![CDATA["getAccountId"]]></ee:set-variable>
+				<ee:set-variable variableName="vInpParam" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"RecordTypeID" : p('sf.account.recordType'),
+	"Name" : "'" ++ vars.vIdppayload.customerName ++ "'",
+	"Zipcode" : "'" ++ vars.vIdppayload.installationAddress.zip ++ "'"
+}]]></ee:set-variable>
+			</ee:variables>
+        </ee:transform>
+    </flow>
+    <flow name="get:\product:hf-sf-sys-api-spec-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: "tjqhu671829nsjaqac"
+} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\serviceAptmt:hf-sf-sys-api-spec-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+  {
+    id: "qsan92jndqacbqa",
+    Name: "John Doe"
+  }
+] as Array {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\workOrder:hf-sf-sys-api-spec-config">
+		<ee:transform doc:name="Set Input Params" doc:id="f5c8f1d5-23e4-40e2-be69-60e9bbf276c4" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="vInpParam" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"purchaseOrderNo" :   attributes.queryParams.purchaseOrderNo ,
+	"workTicketNumber" :  attributes.queryParams.customerRefNo 
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Call fetchWorkOrderDetails" doc:id="bcc24a65-ff89-43a1-8167-eb32c75a1edf" name="fetchWorkOrderDetails"/>
+		<ee:transform doc:name="Set Response" doc:id="54249bbb-c376-4e5a-b6e5-3f944611857f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="post:\account:application\json:hf-sf-sys-api-spec-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: "7wjbshuxy8w728hham",
+  status: "success",
+  msg: "Successfully posted the data"
+} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\asset:application\json:hf-sf-sys-api-spec-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: "7wjbshuxy8w728hham",
+  status: "success",
+  msg: "Successfully posted the data"
+} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\workOrder\lineItems:application\json:hf-sf-sys-api-spec-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: "7wjbshuxy8w728hham",
+  status: "success",
+  msg: "Successfully posted the data"
+} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\product:application\json:hf-sf-sys-api-spec-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: "7wjbshuxy8w728hham",
+  status: "success",
+  msg: "Successfully posted the data"
+} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\serviceAptmt:application\json:hf-sf-sys-api-spec-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: "7wjbshuxy8w728hham",
+  status: "success",
+  msg: "Successfully posted the data"
+} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\workOrder:application\json:hf-sf-sys-api-spec-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: "7wjbshuxy8w728hham",
+  status: "success",
+  msg: "Successfully posted the data"
+} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+</mule>
