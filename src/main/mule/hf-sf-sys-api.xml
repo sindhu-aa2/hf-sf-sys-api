@@ -40,11 +40,20 @@ output application/json
 ---
 {
 	"RecordTypeID" : p('sf.account.recordType'),
-	"Name" : "'" ++ vars.vIdppayload.customerName ++ "'",
-	"Zipcode" : "'" ++ vars.vIdppayload.installationAddress.zip ++ "'"
+	"Name" : "'" ++ payload.customerName ++ "'",
+	"Zipcode" : "'" ++ payload.installationAddress.zip ++ "'"
 }]]></ee:set-variable>
 			</ee:variables>
         </ee:transform>
+		<flow-ref doc:name="Call fetch-account-details" doc:id="1d9dfd37-8720-4c4a-8fd6-553b157f0558" name="fetch-account-details" />
+		<ee:transform doc:name="Set Response Payload" doc:id="e3afc5e8-d628-44c9-81d2-640b264810bb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
     </flow>
     <flow name="get:\product:hf-sf-sys-api-spec-config">
         <ee:transform doc:name="Transform Message">
@@ -78,7 +87,7 @@ output application/json
 			<ee:message >
 			</ee:message>
 			<ee:variables >
-				<ee:set-variable variableName="vInpParam" ><![CDATA[%dw 2.0
+				<ee:set-variable variableName="vInpParams" ><![CDATA[%dw 2.0
 output application/json
 ---
 {
@@ -88,7 +97,7 @@ output application/json
 			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="Call fetchWorkOrderDetails" doc:id="bcc24a65-ff89-43a1-8167-eb32c75a1edf" name="fetchWorkOrderDetails"/>
-		<ee:transform doc:name="Set Response" doc:id="54249bbb-c376-4e5a-b6e5-3f944611857f" >
+		<ee:transform doc:name="Set Response Payload" doc:id="54249bbb-c376-4e5a-b6e5-3f944611857f" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -98,16 +107,32 @@ payload]]></ee:set-payload>
 		</ee:transform>
     </flow>
     <flow name="post:\account:application\json:hf-sf-sys-api-spec-config">
-        <ee:transform doc:name="Transform Message">
+        <ee:transform doc:name="Set Input Params" doc:id="6da62933-3e28-4a5d-b4c6-01c0f7dd21a2">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="vInpParams" ><![CDATA[%dw 2.0
+output application/json
+---
+[{
+	
+	"RecordTypeID__c" : p('sf.account.recordType'),
+	"Name" : payload.customerName,
+	"ShippingStreet": payload.installationAddress.street,
+	"ShippingCity" : payload.installationAddress.city,
+	"ShippingState": payload.installationAddress.state,
+	"ShippingPostalCode": payload.installationAddress.zip,
+	"ShippingCountry": payload.installationAddress.country
+	
+}]]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="call update-account-details" doc:id="837b25e8-ff10-4a5b-bf71-9d3d07cbb32d" name="update-account-details"/>
+		<ee:transform doc:name="Set Response Payload">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  id: "7wjbshuxy8w728hham",
-  status: "success",
-  msg: "Successfully posted the data"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>

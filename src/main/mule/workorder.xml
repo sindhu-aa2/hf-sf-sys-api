@@ -9,11 +9,13 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 	
 		
 	<sub-flow name="fetchWorkOrderDetails" doc:id="4eb2be88-e4b8-4229-894d-e8c632a6aebd">
-		<logger level="INFO" doc:name="Log SF Request" doc:id="add5c69d-b6b0-4d7d-8d5e-006c201fadea" message='"Call Salesforce to fetch WorkOrderDetails" : #[vars.vInpParam.purchaseOrderNo]'/>
+		<logger level="INFO" doc:name="Log SF Request" doc:id="add5c69d-b6b0-4d7d-8d5e-006c201fadea" message='"Call Salesforce to fetch WorkOrderDetails" : #[vars.vInpParams.purchaseOrderNo]'/>
 		<salesforce:query doc:name="Query" doc:id="2bccb597-cc0f-40fc-9c8f-10f8ef285eff" config-ref="Salesforce_Config">
-			<salesforce:salesforce-query><![CDATA[#[p('sf.query.fetch.workOrder')]]]></salesforce:salesforce-query>
-		</salesforce:query>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="3dd8d23f-a02c-44bc-94bb-4b52dafb556a" message="Successfully retreived workOrderDetails for #[vars.vInpParam.purchaseOrderNo]" />
+			<salesforce:salesforce-query><![CDATA[p('sf.query.fetch.workOrder')]]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[vars.vInpParams]]]></salesforce:parameters>
+		
+</salesforce:query>
+		<logger level="INFO" doc:name="Log SF Response" doc:id="3dd8d23f-a02c-44bc-94bb-4b52dafb556a" message="Successfully retreived workOrderDetails for #[vars.vInpParams.purchaseOrderNo]" />
 	</sub-flow>
 	
 	
