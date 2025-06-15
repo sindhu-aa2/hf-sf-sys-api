@@ -4,9 +4,17 @@ sf:
       workOrder: Select Id From WorkOrder where Purchase_Order_No__c =:purchaseOrderNo and Customer_Reference_Number__c=:workTicketNumber
       serviceAppointment: Select Id From ServiceAppointment where ParentID=:workOrderId
       account: SELECT Name,Id,ShippingPostalCode FROM Account where RecordTypeID =:RecordTypeID and Name=:Name and ShippingPostalCode=:Zipcode
-      product: SELECT Id FROM Product2 WHERE External_ID__c=:Material AND IsActive = TRUE AND Company__c = 'HFG USA'
+      product: SELECT Id FROM Product2 WHERE External_ID__c=:material AND IsActive = TRUE AND Company__c = 'HFG USA'
   
   object:
     account: Account
     account_external_id: Id
+    workorder: WorkOrder
+    workorder_external_id: Id
+    serviceAptmt: ServiceAppointment
+    serviceAptmt_external_id: Id
+    product: ProductRequired
+    product_external_id: Id
+    asset: Asset
+    asset_external_id: Id
     

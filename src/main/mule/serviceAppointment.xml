@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<sub-flow name="fetch-serviceAppointment-details" doc:id="cb280fae-d53b-4773-964a-ff117a285f9e" >
+		<logger level="INFO" doc:name="Logger" doc:id="1fdeb25c-df1d-479a-a12b-49d596b7e7a4" />
+		<salesforce:query doc:name="Query" doc:id="ccdac725-6714-419d-8c13-e0d08b80d243" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[#[p('sf.query.fetch.serviceAppointment')]]]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[vars.vInpParams]]]></salesforce:parameters>
+		</salesforce:query>
+		<logger level="INFO" doc:name="Logger" doc:id="07404288-ef0f-44dc-8229-18821627f2d1" />
+	</sub-flow>
+	<sub-flow name="update-serviceAppointment-details" doc:id="47e5226c-9855-4070-9373-e3229a5b521c" >
+		<logger level="INFO" doc:name="Logger" doc:id="20fb91c9-9e94-40d3-8475-eceb52162ab6" />
+		<salesforce:upsert doc:name="Upsert" doc:id="e486bf90-9c81-4159-ba15-587b47c1388a" config-ref="Salesforce_Config" objectType="${sf.object.serviceAptmt}" externalIdFieldName="${sf.object.serviceAptmt_external_id}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="64e21959-dcea-43d9-99e2-74747b4f2d1f" />
+	</sub-flow>
+</mule>

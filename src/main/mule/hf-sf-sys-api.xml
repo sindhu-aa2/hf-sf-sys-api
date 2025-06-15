@@ -56,31 +56,49 @@ payload]]></ee:set-payload>
 		</ee:transform>
     </flow>
     <flow name="get:\product:hf-sf-sys-api-spec-config">
-        <ee:transform doc:name="Transform Message">
+        <ee:transform doc:name="Set Input Param">
             <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
+            </ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="vInpParams" ><![CDATA[%dw 2.0
 output application/json
 ---
 {
-  id: "tjqhu671829nsjaqac"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
-            </ee:message>
+  "material": "'" ++ attributes.queryParams.externalId ++ "'"	
+}]]></ee:set-variable>
+			</ee:variables>
         </ee:transform>
-    </flow>
-    <flow name="get:\serviceAptmt:hf-sf-sys-api-spec-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
+		<flow-ref doc:name="Call fetch-product-details" doc:id="4400cb73-f0f1-4ad5-9507-06a780bc005a" name="fetch-product-details" />
+		<ee:transform doc:name="Set Response Payload" doc:id="b103684c-3f82-4e6a-a3cd-2e6b6d7759b5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-[
-  {
-    id: "qsan92jndqacbqa",
-    Name: "John Doe"
-  }
-] as Array {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="get:\serviceAptmt:hf-sf-sys-api-spec-config">
+		<ee:transform doc:name="Set Input Params" doc:id="eb63c0a9-2f69-4b47-beae-e5bdf8b393bb" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="vInpParams" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"workOrderId": "'" ++ attributes.queryParams.workOrderId ++ "'"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Call fetch-serviceAppointment-details" doc:id="91d56d6f-fb9d-412a-88a7-3e3661004a3d" name="fetch-serviceAppointment-details" />
+		<ee:transform doc:name="Set Response Payload" doc:id="6e212661-f7d1-4f23-b76a-a16e2cb927da" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
     </flow>
     <flow name="get:\workOrder:hf-sf-sys-api-spec-config">
 		<ee:transform doc:name="Set Input Params" doc:id="f5c8f1d5-23e4-40e2-be69-60e9bbf276c4" >
@@ -96,7 +114,7 @@ output application/json
 }]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Call fetchWorkOrderDetails" doc:id="bcc24a65-ff89-43a1-8167-eb32c75a1edf" name="fetchWorkOrderDetails"/>
+		<flow-ref doc:name="Call fetchWorkOrderDetails" doc:id="bcc24a65-ff89-43a1-8167-eb32c75a1edf" name="fetch-workOrder-details"/>
 		<ee:transform doc:name="Set Response Payload" doc:id="54249bbb-c376-4e5a-b6e5-3f944611857f" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -108,22 +126,14 @@ payload]]></ee:set-payload>
     </flow>
     <flow name="post:\account:application\json:hf-sf-sys-api-spec-config">
         <ee:transform doc:name="Set Input Params" doc:id="6da62933-3e28-4a5d-b4c6-01c0f7dd21a2">
-			<ee:message />
-			<ee:variables>
-				<ee:set-variable variableName="vInpParams" ><![CDATA[%dw 2.0
-output application/json
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
 ---
-[{
-	
-	"RecordTypeID__c" : p('sf.account.recordType'),
-	"Name" : payload.customerName,
-	"ShippingStreet": payload.installationAddress.street,
-	"ShippingCity" : payload.installationAddress.city,
-	"ShippingState": payload.installationAddress.state,
-	"ShippingPostalCode": payload.installationAddress.zip,
-	"ShippingCountry": payload.installationAddress.country
-	
-}]]]></ee:set-variable>
+{
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables>
 			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="call update-account-details" doc:id="837b25e8-ff10-4a5b-bf71-9d3d07cbb32d" name="update-account-details"/>
@@ -137,18 +147,23 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="post:\asset:application\json:hf-sf-sys-api-spec-config">
-        <ee:transform doc:name="Transform Message">
+        <ee:transform doc:name="Set Input Params">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  id: "7wjbshuxy8w728hham",
-  status: "success",
-  msg: "Successfully posted the data"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+		<flow-ref doc:name="call update-asset-details" doc:id="fcf0eaa6-8dba-4ac1-b752-907405361079" name="update-asset-details"/>
+		<ee:transform doc:name="Set Response Payload" doc:id="232a9a4c-3008-41d4-8fae-5c12061f79e2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
     </flow>
     <flow name="post:\workOrder\lineItems:application\json:hf-sf-sys-api-spec-config">
         <ee:transform doc:name="Transform Message">
@@ -165,18 +180,20 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="post:\product:application\json:hf-sf-sys-api-spec-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
+		<ee:transform doc:name="Set Input params" doc:id="3e775ae8-4af2-4eda-97d3-163b9920f060" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  id: "7wjbshuxy8w728hham",
-  status: "success",
-  msg: "Successfully posted the data"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="call update-product-details" doc:id="cf658fb9-2b45-4d9c-b4e3-3ee0b0fc5b1e" name="update-product-details" />
+		<ee:transform doc:name="Set Response Payload" doc:id="326a11b7-f5e8-43db-b146-d5c4bf1edf46" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
     </flow>
     <flow name="post:\serviceAptmt:application\json:hf-sf-sys-api-spec-config">
         <ee:transform doc:name="Transform Message">
