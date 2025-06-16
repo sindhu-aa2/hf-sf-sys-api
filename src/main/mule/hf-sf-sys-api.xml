@@ -197,7 +197,7 @@ payload]]></ee:set-payload>
 		</ee:transform>
     </flow>
     <flow name="post:\serviceAptmt:application\json:hf-sf-sys-api-spec-config">
-        <ee:transform doc:name="Transform Message">
+        <ee:transform doc:name="">
             <ee:message>
                 <ee:set-payload><![CDATA[payload]]></ee:set-payload>
             </ee:message>
