@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="update-asset-details" doc:id="87e0eedd-62a0-4930-a1e6-bb6fb2e14647" >
-		<logger level="INFO" doc:name="Logger" doc:id="d849a71e-34b1-4951-bf54-2680843b7c5c" />
+		<logger level="INFO" doc:name="Log SF Request" doc:id="57f9d1d6-32e2-4af3-884e-9f37f5114f13" message='"Call Salesforce to fetch asset Details" : #[vars.vInpParams.Name]' />
 		<ee:transform doc:name="Set SF Payload" doc:id="4e01d3d6-722e-4aef-95eb-33717b972795" >
 			<ee:message >
 			</ee:message>
