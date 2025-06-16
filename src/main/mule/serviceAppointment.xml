@@ -7,7 +7,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="fetch-serviceAppointment-details" doc:id="cb280fae-d53b-4773-964a-ff117a285f9e" >
 		<logger level="INFO" doc:name="Log SF Request" doc:id="1fdeb25c-df1d-479a-a12b-49d596b7e7a4" message='"call salesforce to fetch service appointment details":#[vars.vInpParams.workOrderId]'/>
-		<salesforce:query doc:name="Query" doc:id="ccdac725-6714-419d-8c13-e0d08b80d243" config-ref="Salesforce_Config">
+		<salesforce:query doc:name="Fetch Service Aptmt Details" doc:id="ccdac725-6714-419d-8c13-e0d08b80d243" config-ref="Salesforce_Config">
 			<salesforce:salesforce-query ><![CDATA[#[p('sf.query.fetch.serviceAppointment')]]]></salesforce:salesforce-query>
 			<salesforce:parameters ><![CDATA[#[vars.vInpParams]]]></salesforce:parameters>
 		</salesforce:query>
@@ -18,22 +18,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<ee:message >
 			</ee:message>
 			<ee:variables >
-				<ee:set-variable variableName="vPostData" ><![CDATA[%dw 2.0
-output application/java
----
-[
-	
-  {
-  	"Id":payload.id,
-  	"Location_c":payload.location,
-  	"Location_Start_Date_Time_c":payload.appointmentDateTime
-  }
- 
-]]]></ee:set-variable>
+				<ee:set-variable resource="dwl/sf-upsert-serviceAptmt.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log sf request" doc:id="20fb91c9-9e94-40d3-8475-eceb52162ab6" message='"call salesforce to update service appointment details for " :#[vars.vPostData.Id]'/>
-		<salesforce:upsert doc:name="Upsert" doc:id="e486bf90-9c81-4159-ba15-587b47c1388a" config-ref="Salesforce_Config" objectType="${sf.object.serviceAptmt}" externalIdFieldName="${sf.object.serviceAptmt_external_id}"/>
-		<logger level="INFO" doc:name="log sf response" doc:id="64e21959-dcea-43d9-99e2-74747b4f2d1f" message='"successfully upserted data in service appointment": #[vars.vPostData.Id]'/>
+		<logger level="INFO" doc:name="Log sf request" doc:id="20fb91c9-9e94-40d3-8475-eceb52162ab6" message='"call salesforce to update service appointment details for " :#[vars.vRequest.Id]'/>
+		<salesforce:upsert doc:name="Upsert Service Aptmt Details" doc:id="e486bf90-9c81-4159-ba15-587b47c1388a" config-ref="Salesforce_Config" objectType="${sf.object.serviceAptmt}" externalIdFieldName="${sf.object.serviceAptmt_external_id}">
+			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
+		</salesforce:upsert>
+		<logger level="INFO" doc:name="log sf response" doc:id="64e21959-dcea-43d9-99e2-74747b4f2d1f" message='"successfully upserted data in service appointment": #[vars.vRequest.Id]'/>
 	</sub-flow>
 </mule>

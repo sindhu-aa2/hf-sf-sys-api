@@ -8,8 +8,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<sub-flow name="fetch-account-details" doc:id="1b81faa6-4ab6-4087-bc73-25e91d545c20" >
 		<logger level="INFO" doc:name="Log SF Request" doc:id="e1fa061d-800c-4c01-8986-d5ede0ee25e2" message='"Call Salesforce to fetch account Details" : #[vars.vInpParams.Name]' />
 		<salesforce:query doc:name="Query" doc:id="272cce93-25b0-4555-a398-89f492d357b3" config-ref="Salesforce_Config" >
-			<salesforce:salesforce-query ><![CDATA[p('sf.query.fetch.account')]]></salesforce:salesforce-query>
-			<salesforce:parameters ><![CDATA[#[vars.vInpParams]]]></salesforce:parameters>
+			<salesforce:salesforce-query ><![CDATA[${sf.query.fetch.account}]]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	"recordTypeId" : vars.vInpParam.recordTypeId,
+	"zipCode" : vars.vInpParam.zipCode,
+	"name" : vars.vInpParam.name
+}]]]></salesforce:parameters>
 		</salesforce:query>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="23fb8e34-4396-4570-b4a0-05f53c4db855" message="Successfully retreived account Details for #[vars.vInpParams.Name]" />
 	</sub-flow>
@@ -17,26 +23,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<ee:transform doc:name="Set SF Request Payload" doc:id="09828473-952a-4b74-b5f5-3f45861d1c2c">
 			<ee:message />
 			<ee:variables>
-				<ee:set-variable variableName="vInpParams" ><![CDATA[%dw 2.0
-output application/java
----
-[{
-	
-	"RecordTypeID__c" : p('sf.account.recordType'),
-	"Name" : payload.customerName,
-	"ShippingStreet": payload.installationAddress.street,
-	"ShippingCity" : payload.installationAddress.city,
-	"ShippingState": payload.installationAddress.state,
-	"ShippingPostalCode": payload.installationAddress.zip,
-	"ShippingCountry": payload.installationAddress.country
-	
-}]]]></ee:set-variable>
+				<ee:set-variable resource="dwl/sf-upsert-account.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log SF Request" doc:id="310261cd-65db-4ca5-a480-2de7d3b53d80" message='"Call Salesforce to post account Details" : #[vars.vInpParams.Name]' />
+		<logger level="INFO" doc:name="Log SF Request" doc:id="310261cd-65db-4ca5-a480-2de7d3b53d80" message='"Call Salesforce to post account Details" : #[vars.vRequest.Name]' />
 		<salesforce:upsert doc:name="Upsert" doc:id="6d9c22cb-eca8-436c-be9c-cc8708ad3736" config-ref="Salesforce_Config" objectType="${sf.object.account}" externalIdFieldName="${sf.object.account_external_id}">
 			<salesforce:records ><![CDATA[#[vars.vInpParams]]]></salesforce:records>
 		</salesforce:upsert>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="0b10c2f9-96af-420c-af9b-fc01d309b35d" message="Successfully upserted accountDetails for #[vars.vInpParams.Name]" />
+		<logger level="INFO" doc:name="Log SF Response" doc:id="0b10c2f9-96af-420c-af9b-fc01d309b35d" message="Successfully upserted accountDetails for #[vars.vRequest.Name]" />
 	</sub-flow>
 </mule>

@@ -9,7 +9,7 @@
 *.ear
 
 # ------------------------------------------------------------------------------------------- #
-# Eclipse-specific (https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore) #
+# Eclipseific (https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore) #
 # ------------------------------------------------------------------------------------------- #
 *.pydevproject
 .metadata
@@ -32,14 +32,14 @@ local.properties
 # Locally stored "Eclipse launch configurations"
 *.launch
 
-# CDT-specific
+# CDTific
 .cproject
 
-# PDT-specific
+# PDTific
 .buildpath
 
 # --------------- #
-# Studio-specific #
+# Studioific #
 # --------------- #
 target/
 .mule/
