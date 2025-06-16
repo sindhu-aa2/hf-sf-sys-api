@@ -6,12 +6,11 @@
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="update-asset-details" doc:id="87e0eedd-62a0-4930-a1e6-bb6fb2e14647" >
-		<logger level="INFO" doc:name="Logger" doc:id="d849a71e-34b1-4951-bf54-2680843b7c5c" />
-		<ee:transform doc:name="Set SF Payload" doc:id="4e01d3d6-722e-4aef-95eb-33717b972795" >
-			<ee:message >
+		<ee:transform doc:name="Set SF Payload" doc:id="4e01d3d6-722e-4aef-95eb-33717b972795">
+			<ee:message>
 			</ee:message>
-			<ee:variables >
-				<ee:set-variable variableName="vInpParams" ><![CDATA[%dw 2.0
+			<ee:variables>
+				<ee:set-variable variableName="vInpParams"><![CDATA[%dw 2.0
 output application/java
 ---
 [{
@@ -24,9 +23,10 @@ output application/java
 ]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
+		<logger level="INFO" doc:name="Log SF Request" doc:id="d849a71e-34b1-4951-bf54-2680843b7c5c" message='"call upsert for asset details":#[vars.vInpParams.Name]'/>
 		<salesforce:upsert doc:name="Upsert" doc:id="4807329b-1ea0-47ea-ba86-89cdd61a9fd7" config-ref="Salesforce_Config" objectType="${sf.object.asset}" externalIdFieldName="${sf.object.asset_external_id}">
 			<salesforce:records ><![CDATA[#[vars.vInpParams]]]></salesforce:records>
 		</salesforce:upsert>
-		<logger level="INFO" doc:name="Logger" doc:id="9df6b8b9-4078-4a9e-83b3-3d7901eddecf" />
+		<logger level="INFO" doc:name="Log SF Response" doc:id="9df6b8b9-4078-4a9e-83b3-3d7901eddecf" message='"successfully upserted asset details for":#[vars.vInpParams.Name]'/>
 	</sub-flow>
 </mule>

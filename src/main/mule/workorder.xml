@@ -17,6 +17,32 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 </salesforce:query>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="3dd8d23f-a02c-44bc-94bb-4b52dafb556a" message="Successfully retreived workOrderDetails for #[vars.vInpParams.purchaseOrderNo]" />
 	</sub-flow>
+	<sub-flow name="update-workorder-details" doc:id="c733f122-9ee6-4a48-835b-ade28b3bf95b" >
+		<ee:transform doc:name="SF Payload" doc:id="725f1749-bd9c-4291-9d1a-4f8c25a9e8bd">
+			<ee:message>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="vPostData" ><![CDATA[%dw 2.0
+output application/java
+---
+[
+	
+	{
+	  "Id":payload.id,
+	  "Location_c":payload.location,
+	  "Onsite_Contact_c":payload.siteContactName,
+	  "Onsite_Email_c":payload.siteContactEmail,
+	  "Onsite_Phone_c":payload.siteContactTelephone,
+	  "Name_od_Person_who_sent_work_order_c":payload.jobOwner
+	}
+	
+]]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="3cfe3dd3-4d19-4e54-b2a9-7d660b6ee900" message='"Call Salesforce to update work order Details" : #[vars.vPostData.Id]'/>
+		<salesforce:upsert doc:name="Upsert" doc:id="de9dd807-a8c2-48b0-9a97-7c94b80546bb" config-ref="Salesforce_Config" objectType="${sf.object.workorder}" externalIdFieldName="${sf.object.workorder_external_id}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="930d32cd-027b-43c5-bc36-d80195ab1a20" message="Successfully updated product Details for #[vars.vPostData.Id]"/>
+	</sub-flow>
 	
 	
 	

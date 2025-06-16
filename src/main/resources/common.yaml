@@ -17,4 +17,6 @@ sf:
     product_external_id: Id
     asset: Asset
     asset_external_id: Id
+    woli: WorkOrderLineItem
+    woli_external_id: Id
     

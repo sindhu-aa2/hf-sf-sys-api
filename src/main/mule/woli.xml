@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="upsert-woli-details" doc:id="2629b226-00d8-49c7-a462-a9763ee0b1d2" >
+		<ee:transform doc:name="SF Payload" doc:id="d695ee6c-f5ca-4252-9408-db93df6171fb" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="vPostData" ><![CDATA[%dw 2.0
+output application/java
+---
+[
+	{
+		"WorkOrderId":payload.workOrderId,
+		"Purchase_Order_No_c":payload.purchaseOrderNo,
+		"Customer_Reference_No_c":payload.customerRefNo,
+		"WorkTypeId":payload.workTypeId
+    }
+    
+]]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Log SF Request" doc:id="7a074dbe-7ad8-4b35-a2aa-6d02d9b7f753" message='"call salesforce upsert for ":#[vars.vPostData.WorkOrderId]'/>
+		<salesforce:upsert doc:name="Upsert" doc:id="d1dd9ee5-40a7-4f3b-811f-aa89173953a8" config-ref="Salesforce_Config" objectType="${sf.object.woli}" externalIdFieldName="${sf.object.woli_external_id}"/>
+		<logger level="INFO" doc:name="Log SF Response" doc:id="457b6422-8f9c-4782-8110-bfbab65e743c" message='"successfully upserted into woli ":#[vars.vPostData.WorkOrderId]'/>
+	</sub-flow>
+</mule>

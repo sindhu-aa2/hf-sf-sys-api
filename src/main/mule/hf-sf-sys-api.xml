@@ -114,7 +114,7 @@ output application/json
 }]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Call fetchWorkOrderDetails" doc:id="bcc24a65-ff89-43a1-8167-eb32c75a1edf" name="fetch-workOrder-details"/>
+		<flow-ref doc:name="Call fetch-workOrder-details" doc:id="bcc24a65-ff89-43a1-8167-eb32c75a1edf" name="fetch-workOrder-details"/>
 		<ee:transform doc:name="Set Response Payload" doc:id="54249bbb-c376-4e5a-b6e5-3f944611857f" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -128,10 +128,9 @@ payload]]></ee:set-payload>
         <ee:transform doc:name="Set Input Params" doc:id="6da62933-3e28-4a5d-b4c6-01c0f7dd21a2">
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
-{
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
 			</ee:message>
 			<ee:variables>
 			</ee:variables>
@@ -166,18 +165,20 @@ payload]]></ee:set-payload>
 		</ee:transform>
     </flow>
     <flow name="post:\workOrder\lineItems:application\json:hf-sf-sys-api-spec-config">
-        <ee:transform doc:name="Transform Message">
+        <ee:transform doc:name="">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  id: "7wjbshuxy8w728hham",
-  status: "success",
-  msg: "Successfully posted the data"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+		<flow-ref doc:name="call upsert-woli-details" doc:id="69fcd52b-4edb-44c9-b290-fd304c13c806" name="upsert-woli-details"/>
+		<ee:transform doc:name="set response payload" doc:id="36d6aa90-9988-4d82-8268-f30df0be9ff9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
     </flow>
     <flow name="post:\product:application\json:hf-sf-sys-api-spec-config">
 		<ee:transform doc:name="Set Input params" doc:id="3e775ae8-4af2-4eda-97d3-163b9920f060" >
@@ -198,29 +199,27 @@ payload]]></ee:set-payload>
     <flow name="post:\serviceAptmt:application\json:hf-sf-sys-api-spec-config">
         <ee:transform doc:name="Transform Message">
             <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  id: "7wjbshuxy8w728hham",
-  status: "success",
-  msg: "Successfully posted the data"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+                <ee:set-payload><![CDATA[payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+		<flow-ref doc:name="call update-serviceAppointment-details" doc:id="5b77e683-b9cf-4d1b-8999-05e9706840b4" name="update-serviceAppointment-details"/>
+		<ee:transform doc:name="set response payload" doc:id="056d0edd-1138-477e-9b45-405230a3f83d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
     </flow>
     <flow name="post:\workOrder:application\json:hf-sf-sys-api-spec-config">
         <ee:transform doc:name="Transform Message">
             <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  id: "7wjbshuxy8w728hham",
-  status: "success",
-  msg: "Successfully posted the data"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+                <ee:set-payload><![CDATA[payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+		<flow-ref doc:name="call update-workorder-details" doc:id="fa031ba3-7525-43bb-89b0-33d45946a3e5" name="update-workorder-details"/>
+		<ee:transform doc:name="set response payload" doc:id="e00c64ac-8f8e-4977-8ac5-e0e8f1b0beb3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
     </flow>
 </mule>

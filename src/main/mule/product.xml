@@ -8,7 +8,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<sub-flow name="update-product-details" doc:id="62e6e1b9-b359-4ab4-a1b5-6d2ea7b957a9" >
 		<ee:transform doc:name="SF Payload" doc:id="56e1fe13-747f-4712-a7ca-5eb8bc631d25">
 			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="vPostData" ><![CDATA[%dw 2.0
 output application/java
 ---
 [
@@ -22,12 +24,12 @@ output application/java
 		
 	}
 	
-]]]></ee:set-payload>
-			</ee:message>
+]]]></ee:set-variable>
+			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log SF Request" doc:id="f8117335-ca5b-42ae-903b-dd37228c28b9" message='"Call Salesforce to update product Details" : #[vars.vInpParams.Product2ID]' />
+		<logger level="INFO" doc:name="Log SF Request" doc:id="f8117335-ca5b-42ae-903b-dd37228c28b9" message='"Call Salesforce to update product Details" : #[vars.vPostData.Product2ID]' />
 		<salesforce:upsert doc:name="Upsert" doc:id="1877cc43-6935-4e7f-b263-eb340c70a023" config-ref="Salesforce_Config" objectType="${sf.object.product}" externalIdFieldName="${sf.object.product_external_id}"/>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="1312a2f4-87a5-44c3-98e6-9129288cee6a" message="Successfully updated product Details for #[payload.Id]" />
+		<logger level="INFO" doc:name="Log SF Response" doc:id="1312a2f4-87a5-44c3-98e6-9129288cee6a" message="Successfully updated product Details for #[vars.vPostData.Product2ID]" />
 	
 </sub-flow>
 	<sub-flow name="fetch-product-details" doc:id="3d3eeec7-85a8-4e70-967e-6e12b550e73d" >
