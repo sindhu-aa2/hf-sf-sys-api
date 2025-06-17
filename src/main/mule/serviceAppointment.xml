@@ -8,8 +8,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<sub-flow name="fetch-serviceAppointment-details" doc:id="cb280fae-d53b-4773-964a-ff117a285f9e" >
 		<logger level="INFO" doc:name="Log SF Request" doc:id="1fdeb25c-df1d-479a-a12b-49d596b7e7a4" message='"call salesforce to fetch service appointment details":#[vars.vInpParams.workOrderId]'/>
 		<salesforce:query doc:name="Fetch Service Aptmt Details" doc:id="ccdac725-6714-419d-8c13-e0d08b80d243" config-ref="Salesforce_Config">
-			<salesforce:salesforce-query ><![CDATA[#[p('sf.query.fetch.serviceAppointment')]]]></salesforce:salesforce-query>
-			<salesforce:parameters ><![CDATA[#[vars.vInpParams]]]></salesforce:parameters>
+			<salesforce:salesforce-query ><![CDATA[${sf.query.fetch.serviceAppointment}]]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	"workOrderId" : vars.vInpParams.workOrderId
+}]]]></salesforce:parameters>
 		</salesforce:query>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="07404288-ef0f-44dc-8229-18821627f2d1" message='"successfully fetched service appointment details":#[vars.vInpParams.workOrderId]'/>
 	</sub-flow>
