@@ -27,6 +27,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<salesforce:parameters ><![CDATA[#[output application/java
 ---
 {
+	"company" : Mule::p(sf.product.company),
+	"isActive" : Mule::p(sf.product.isActive),
 	"material" : vars.vInpParams.material
 }]]]></salesforce:parameters>
 		</salesforce:query>
