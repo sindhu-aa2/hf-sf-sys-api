@@ -57,7 +57,7 @@ payload]]></ee:set-payload>
 output application/json
 ---
 {
-  "material": "'" ++ attributes.queryParams.externalId ++ "'"	
+  "material": attributes.queryParams.externalId
 }]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
@@ -79,7 +79,7 @@ payload]]></ee:set-payload>
 output application/json
 ---
 {
-	"workOrderId": "'" ++ attributes.queryParams.workOrderId ++ "'"
+	"workOrderId": attributes.queryParams.workOrderId
 }]]></ee:set-variable>
             </ee:variables>
         </ee:transform>

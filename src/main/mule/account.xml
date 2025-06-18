@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="fetch-account-details" doc:id="1b81faa6-4ab6-4087-bc73-25e91d545c20" >
-		<logger level="INFO" doc:name="Log SF Request" doc:id="e1fa061d-800c-4c01-8986-d5ede0ee25e2" message='"Call Salesforce to fetch account Details" : #[vars.vInpParams.Name]' />
+		<logger level="INFO" doc:name="Log SF Request" doc:id="e1fa061d-800c-4c01-8986-d5ede0ee25e2" message='"Call Salesforce to fetch account Details" : #[vars.vInpParams.name]' />
 		<salesforce:query doc:name="Query" doc:id="272cce93-25b0-4555-a398-89f492d357b3" config-ref="Salesforce_Config" >
 			<salesforce:salesforce-query ><![CDATA[${sf.query.fetch.account}]]></salesforce:salesforce-query>
 			<salesforce:parameters ><![CDATA[#[output application/java
@@ -17,7 +17,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"name" : vars.vInpParam.name
 }]]]></salesforce:parameters>
 		</salesforce:query>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="23fb8e34-4396-4570-b4a0-05f53c4db855" message="Successfully retreived account Details for #[vars.vInpParams.Name]" />
+		<logger level="INFO" doc:name="Log SF Response" doc:id="23fb8e34-4396-4570-b4a0-05f53c4db855" message="Successfully retreived account Details for #[vars.vInpParams.name]" />
 	</sub-flow>
 	<sub-flow name="update-account-details" doc:id="1dd388b8-ba39-4c90-b2b9-e7f0ef6017d6" >
 		<ee:transform doc:name="Set SF Request Payload" doc:id="09828473-952a-4b74-b5f5-3f45861d1c2c">

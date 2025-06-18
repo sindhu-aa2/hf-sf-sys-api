@@ -1,14 +1,14 @@
 sf:
   query:
     fetch:
-      workOrder: Select Id From WorkOrder where Purchase_Order_No__c =':purchaseOrderNo' and Customer_Reference_Number__c=':workTicketNumber''
-      serviceAppointment: Select Id From ServiceAppointment where ParentID=':workOrderId'
+      workOrder: Select Id From WorkOrder where Purchase_Order_No__c =':purchaseOrderNo' and Customer_Reference_Number__c=':workTicketNumber'
+      serviceAppointment: Select Id From ServiceAppointment where ParentRecordID=':workOrderId'
       account: SELECT Name,Id,ShippingPostalCode FROM Account where RecordTypeID =':recordTypeId' and Name=':name' and ShippingPostalCode=':zipCode'
-      product: SELECT Id FROM Product2 WHERE External_ID__c=:material AND IsActive =':isActive' AND Company__c =':company'
+      product: SELECT Id FROM Product2 WHERE External_ID__c=':material' AND IsActive =:isActive AND Company__c =':company'
   
   product:
     isActive: "true"
-    company: HFG USA
+    company: "HFG USA"
   
   object:
     account: Account
