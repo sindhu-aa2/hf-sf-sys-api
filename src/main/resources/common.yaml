@@ -7,7 +7,7 @@ sf:
       product: SELECT Id FROM Product2 WHERE External_ID__c=:material AND IsActive =':isActive' AND Company__c =':company'
   
   product:
-    isActive: True
+    isActive: "true"
     company: HFG USA
   
   object:
