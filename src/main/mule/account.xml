@@ -28,7 +28,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</ee:transform>
 		<logger level="INFO" doc:name="Log SF Request" doc:id="310261cd-65db-4ca5-a480-2de7d3b53d80" message='"Call Salesforce to post account Details" : #[vars.vRequest.Name]' />
 		<salesforce:upsert doc:name="Upsert" doc:id="6d9c22cb-eca8-436c-be9c-cc8708ad3736" config-ref="Salesforce_Config" objectType="${sf.object.account}" externalIdFieldName="${sf.object.account_external_id}">
-			<salesforce:records ><![CDATA[#[vars.vInpParams]]]></salesforce:records>
+			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="0b10c2f9-96af-420c-af9b-fc01d309b35d" message="Successfully upserted accountDetails for #[vars.vRequest.Name]" />
 	</sub-flow>
