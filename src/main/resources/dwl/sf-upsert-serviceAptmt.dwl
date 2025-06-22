@@ -5,8 +5,8 @@ output application/java
 	
   {
   	"Id":payload.id,
-  	"Location_c":payload.location,
-  	"Location_Start_Date_Time_c":payload.appointmentDateTime
+  	"LocationAccount__c":payload.location,
+  	"Local_Start_Date_Time__c":payload.appointmentDateTime as DateTime
   }
  
 ]

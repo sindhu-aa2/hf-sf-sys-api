@@ -4,8 +4,8 @@ output application/java
 [
 	{
 		"WorkOrderId":payload.workOrderId,
-		"Purchase_Order_No_c":payload.purchaseOrderNo,
-		"Customer_Reference_No_c":payload.customerRefNo,
+		"Purchase_Order_No__c":payload.purchaseOrderNo as String,
+		"REF_Number__c":payload.customerRefNo,
 		"WorkTypeId":payload.workTypeId
     }
     

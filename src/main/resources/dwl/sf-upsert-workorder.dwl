@@ -2,14 +2,12 @@
 output application/java
 ---
 [
-	
-	{
+   {
 	  "Id":payload.id,
-	  "Location_c":payload.location,
-	  "Onsite_Contact_c":payload.siteContactName,
-	  "Onsite_Email_c":payload.siteContactEmail,
-	  "Onsite_Phone_c":payload.siteContactTelephone,
-	  "Name_od_Person_who_sent_work_order_c":payload.jobOwner
+	  "Location__c":payload.location,
+	  "Onsite_Contact__c":payload.siteContactName,
+	  "Onsite_Email__c":payload.siteContactEmail,
+	  "Onsite_Phone__c":payload.siteContactTelephone as String,
+	  "Name_of_Person_who_sent_work_order__c":payload.jobOwner
 	}
-	
 ]
