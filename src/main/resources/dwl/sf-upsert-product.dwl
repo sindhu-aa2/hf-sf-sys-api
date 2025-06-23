@@ -4,10 +4,10 @@ output application/java
 [
 	
 	{
-		"ParentRecordId" : payload.woliId,
+		"ParentRecordId" : payload.parentRecord,
 		"Product2ID": payload.product,
-		"QuantityRequired": payload.quantityReq,
-		"rootstock__fslpr_price__c": payload.rootStackPrice
+		"QuantityRequired": payload.quantity,
+		"rootstock__fslpr_price__c": payload.unitPrice
 		
 		
 	}

@@ -20,5 +20,6 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 	<configuration-properties doc:name="Configuration properties" doc:id="7c9a78d0-9015-48d8-a244-b79cb1e7844e" file="common.yaml" />
 	<global-property doc:name="Global Property" doc:id="3bcfe05a-e802-4d46-8244-cc0fb6e6a33a" name="secureKey" value="Handsfree@102938" />
 	<global-property doc:name="Global Property" doc:id="c4dff1c9-a8c9-4575-a21a-3a3b57d44366" name="env" value="dev" />
+	<configuration doc:name="Configuration" doc:id="ee6fc3bf-3620-4626-8ed1-bafbff7740c8" defaultErrorHandler-ref="errorHandlerError_Handler" />
 	
 </mule>

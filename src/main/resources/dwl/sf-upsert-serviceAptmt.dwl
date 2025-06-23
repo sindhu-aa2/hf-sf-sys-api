@@ -2,7 +2,6 @@
 output application/java
 ---
 [
-	
   {
   	"Id":payload.id,
   	"LocationAccount__c":payload.location,
