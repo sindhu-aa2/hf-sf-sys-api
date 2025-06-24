@@ -25,17 +25,16 @@
         <apikit:console config-ref="hf-sf-sys-api-config" />
     </flow>
     <flow name="get:\account:hf-sf-sys-api-config">
-        <ee:transform doc:name="Set Input Param">
+        <ee:transform doc:name="Set Input Param" doc:id="e1f424ee-f2fa-40e7-84ff-c18d356098d2">
             <ee:message />
             <ee:variables>
-                <ee:set-variable variableName="queryName"><![CDATA["getAccountId"]]></ee:set-variable>
                 <ee:set-variable variableName="vInpParam"><![CDATA[%dw 2.0
 output application/json
 ---
 {
 	"recordTypeId": p('sf.account.recordType'),
 	"name" : attributes.queryParams.name,
-	"zipcode" : attributes.queryParams.zipCode
+	"zipCode" : attributes.queryParams.zipCode
 }]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
@@ -186,7 +185,10 @@ payload]]></ee:set-payload>
         <flow-ref doc:name="call update-product-details" doc:id="9bc4adb3-1653-4053-8083-013eeae71e60" name="update-product-details" />
         <ee:transform doc:name="Set Response Payload" doc:id="1e5f4c1a-973f-4f8b-bc5c-0c5f81b63ec2">
             <ee:message>
-                <ee:set-payload><![CDATA[payload]]></ee:set-payload>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>

@@ -31,4 +31,5 @@ type auto_37a61b96_fc53_48d1_8ab8_be1baf244db8_Output_Payload = Any
       </types:output-event>
     </types:processor-declaration>
   </types:enrichment>
+  <types:enrichment select="#e1f424ee-f2fa-40e7-84ff-c18d356098d2"/>
 </types:mule>
