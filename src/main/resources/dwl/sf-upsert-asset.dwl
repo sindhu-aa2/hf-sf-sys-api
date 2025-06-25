@@ -2,10 +2,9 @@
 output application/java
 ---
 [
- {
-  Name: payload.name,
-  RecordTypeID :p('sf.asset.recordType'),
-  AccountId : payload.accountId
-  
- }
+  {
+	  Name: payload.name,
+	  RecordTypeID :p('sf.asset.recordType'),
+	  AccountId : payload.accountId
+  }
 ]

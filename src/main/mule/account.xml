@@ -10,9 +10,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<salesforce:query doc:name="Query" doc:id="272cce93-25b0-4555-a398-89f492d357b3" config-ref="Salesforce_Config" >
 			<salesforce:salesforce-query ><![CDATA[${sf.query.fetch.account}]]></salesforce:salesforce-query>
 			<salesforce:parameters ><![CDATA[#[{
-	"recordTypeId" : vars.vInpParam.recordTypeId,
-	"zipCode" : vars.vInpParam.zipCode,
-	"name" : vars.vInpParam.name
+	"recordTypeId" : vars.vInpParams.recordTypeId,
+	"zipCode" : vars.vInpParams.zipCode,
+	"name" : vars.vInpParams.name
 }]]]></salesforce:parameters>
 		</salesforce:query>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="23fb8e34-4396-4570-b4a0-05f53c4db855" message="Successfully retreived account Details for #[vars.vInpParams.name]" />
