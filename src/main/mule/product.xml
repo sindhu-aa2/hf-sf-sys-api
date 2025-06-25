@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	
 </sub-flow>
 	<sub-flow name="fetch-product-details" doc:id="3d3eeec7-85a8-4e70-967e-6e12b550e73d" >
-		<logger level="INFO" doc:name="Log SF Request" doc:id="a2dcf06b-9b8b-462c-8876-b5294414b322" message='"Call Salesforce to fetch product Details" : #[vars.vInpParams.Name]' />
+		<logger level="INFO" doc:name="Log SF Request" doc:id="a2dcf06b-9b8b-462c-8876-b5294414b322" message='"Call Salesforce to fetch product Details" : #[vars.vInpParams.material]' />
 		<salesforce:query doc:name="Fetch Product Details" doc:id="39cb4098-13a1-4df5-a670-7ff8163d347b" config-ref="Salesforce_Config">
 			<salesforce:salesforce-query ><![CDATA[${sf.query.fetch.product}]]></salesforce:salesforce-query>
 			<salesforce:parameters ><![CDATA[#[output application/java
@@ -32,7 +32,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"material" : vars.vInpParams.material
 }]]]></salesforce:parameters>
 		</salesforce:query>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="9f607020-74d4-4113-ab35-f7b66af18447" message="Successfully retreived product Details for #[vars.vInpParams.Name]" />
+		<logger level="INFO" doc:name="Log SF Response" doc:id="9f607020-74d4-4113-ab35-f7b66af18447" message="Successfully retreived product Details for #[vars.vInpParams.material]" />
 	
 </sub-flow>
 </mule>

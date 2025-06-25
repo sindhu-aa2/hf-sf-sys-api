@@ -28,7 +28,7 @@
         <ee:transform doc:name="Set Input Param" doc:id="e1f424ee-f2fa-40e7-84ff-c18d356098d2">
             <ee:message />
             <ee:variables>
-                <ee:set-variable variableName="vInpParam"><![CDATA[%dw 2.0
+				<ee:set-variable variableName="vInpParams" ><![CDATA[%dw 2.0
 output application/json
 ---
 {

@@ -30,7 +30,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 				<ee:set-variable resource="dwl/sf-upsert-workorder.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log SF Request" doc:id="3cfe3dd3-4d19-4e54-b2a9-7d660b6ee900" message='"Call Salesforce to update work order Details" : #[vars.vRequest.Id]'/>
+		<logger level="INFO" doc:name="Log SF Request" doc:id="3cfe3dd3-4d19-4e54-b2a9-7d660b6ee900" message='"Call Salesforce to update work order Details for" : #[vars.vRequest.Id]'/>
 		<salesforce:upsert doc:name="Upsert" doc:id="de9dd807-a8c2-48b0-9a97-7c94b80546bb" config-ref="Salesforce_Config" objectType="${sf.object.workorder}" externalIdFieldName="${sf.object.workorder_external_id}">
 			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
