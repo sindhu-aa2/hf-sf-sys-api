@@ -1,7 +1,7 @@
 sf:
   query:
     fetch:
-      workOrder: Select Id,of_Vehicles_Serviced__c,WorkTypeId From WorkOrder where Purchase_Order_No__c =':purchaseOrderNo' and Customer_Reference_Number__c=':workTicketNumber'
+      workOrder: Select Id,Number_Of_Assets__c,WorkTypeId From WorkOrder where Purchase_Order_No__c =':purchaseOrderNo' and Customer_Reference_Number__c=':workTicketNumber'
       serviceAppointment: Select Id From ServiceAppointment where ParentRecordID=':workOrderId'
       account: SELECT Id FROM Account where RecordTypeId=':recordTypeId' and Name=':name' and ShippingPostalCode=':zipCode'
       product: SELECT Id FROM Product2 WHERE External_ID__c=':material' AND IsActive =:isActive AND Company__c =':company'
