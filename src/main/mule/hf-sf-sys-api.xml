@@ -33,7 +33,7 @@ output application/json
 ---
 {
 	"recordTypeId": p('sf.account.recordType'),
-	"name" : attributes.queryParams.name,
+	"name" : "%" ++ attributes.queryParams.name ++ "%",
 	"zipCode" : attributes.queryParams.zipCode
 }]]></ee:set-variable>
             </ee:variables>

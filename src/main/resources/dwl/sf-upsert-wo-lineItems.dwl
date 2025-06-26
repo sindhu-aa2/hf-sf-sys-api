@@ -6,7 +6,9 @@ output application/java
 		"WorkOrderId":payload.workOrderId,
 		"Purchase_Order_No__c":payload.purchaseOrderNo as String,
 		"Customer_Reference__c":payload.customerRefNo,
-		"WorkTypeId":payload.workTypeId
+		"WorkTypeId":payload.workTypeId,
+		"Service_Appointment__c":payload.serviceAptmtId,
+		"AssetId":payload.assetId
     }
     
 ]
