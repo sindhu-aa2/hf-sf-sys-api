@@ -8,6 +8,7 @@ output application/java
 		"Customer_Reference__c":payload.customerRefNo,
 		"WorkTypeId":payload.workTypeId,
 		"Service_Appointment__c": payload.serviceAptmtId deafult ""
+		"AssetId":payload.assetId
     }
     
 ]
