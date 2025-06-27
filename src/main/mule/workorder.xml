@@ -36,19 +36,19 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 		</salesforce:upsert>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="930d32cd-027b-43c5-bc36-d80195ab1a20" message="Successfully updated product Details for #[vars.vRequest.Id]"/>
 	</sub-flow>
-	<sub-flow name="update-wo-lineItems-details" doc:id="d661eee9-e79d-4369-aa77-bb8eb129fa6f" >
-		<ee:transform doc:name="SF Payload" doc:id="0908de53-0774-4575-b468-4a3780c6955e" >
-			<ee:message >
+	<sub-flow name="update-wo-lineItems-details" doc:id="d661eee9-e79d-4369-aa77-bb8eb129fa6f">
+		<ee:transform doc:name="SF Payload" doc:id="0908de53-0774-4575-b468-4a3780c6955e">
+			<ee:message>
 			</ee:message>
-			<ee:variables >
+			<ee:variables>
 				<ee:set-variable resource="dwl/sf-upsert-wo-lineItems.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log SF Request" doc:id="a722df09-43bc-4a54-8f0d-be4abb383502" message='"call salesforce upsert for ":#[vars.vRequest.WorkOrderId]'/>
+		<logger level="INFO" doc:name="Log SF Request" doc:id="a722df09-43bc-4a54-8f0d-be4abb383502" message='"call salesforce upsert for ":#[vars.vRequest.WorkOrderId]' />
 		<salesforce:upsert doc:name="Upsert" doc:id="f1c24f50-738f-44a0-aef9-647024214d52" config-ref="Salesforce_Config" objectType="${sf.object.woli}" externalIdFieldName="${sf.object.woli_external_id}">
-			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
+			<salesforce:records><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="198797a7-23a2-4dfe-8d38-07db79038581" message='"successfully upserted into woli ":#[vars.vRequest.WorkOrderId]'/>
+		<logger level="INFO" doc:name="Log SF Response" doc:id="198797a7-23a2-4dfe-8d38-07db79038581" message='"successfully upserted into woli ":#[vars.vRequest.WorkOrderId]' />
 	</sub-flow>
 	
 	
