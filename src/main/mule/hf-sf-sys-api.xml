@@ -28,7 +28,7 @@
         <ee:transform doc:name="Set Input Param" doc:id="e1f424ee-f2fa-40e7-84ff-c18d356098d2">
             <ee:message />
             <ee:variables>
-				<ee:set-variable variableName="vInpParams" ><![CDATA[%dw 2.0
+                <ee:set-variable variableName="vInpParams"><![CDATA[%dw 2.0
 output application/json
 ---
 {
@@ -155,23 +155,23 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="post:\workOrder\lineItems:application\json:hf-sf-sys-api-config">
-		<ee:transform doc:name="Set Input Params" doc:id="178975e3-ed7c-47fd-ae5c-a2cc95d623fe" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+        <ee:transform doc:name="Set Input Params" doc:id="178975e3-ed7c-47fd-ae5c-a2cc95d623fe">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<flow-ref doc:name="call update-wo-lineItems-details" doc:id="1b3e888d-bcb4-4389-9938-450ff99951fd" name="update-wo-lineItems-details" />
-		<ee:transform doc:name="set response payload" doc:id="a23921cc-b35c-4588-8212-f98978a4ca41" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+            </ee:message>
+        </ee:transform>
+        <flow-ref doc:name="call update-wo-lineItems-details" doc:id="1b3e888d-bcb4-4389-9938-450ff99951fd" name="update-wo-lineItems-details" />
+        <ee:transform doc:name="set response payload" doc:id="a23921cc-b35c-4588-8212-f98978a4ca41">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+            </ee:message>
+        </ee:transform>
     </flow>
     <flow name="post:\product:application\json:hf-sf-sys-api-config">
         <ee:transform doc:name="Set Input Params" doc:id="86f95310-4e1e-4a2c-a8ce-a9672adb8b67">
@@ -201,33 +201,33 @@ output application/json
 payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<flow-ref doc:name="call update-serviceAppointment-details" doc:id="bb10ea37-9d03-4418-aadf-7139bf061598" name="update-serviceAppointment-details" />
-		<ee:transform doc:name="set response payload" doc:id="8e7cb688-97d5-4e89-936a-7cfcce276a96" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+        <flow-ref doc:name="call update-serviceAppointment-details" doc:id="bb10ea37-9d03-4418-aadf-7139bf061598" name="update-serviceAppointment-details" />
+        <ee:transform doc:name="set response payload" doc:id="8e7cb688-97d5-4e89-936a-7cfcce276a96">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+            </ee:message>
+        </ee:transform>
     </flow>
     <flow name="post:\workOrder:application\json:hf-sf-sys-api-config">
-		<ee:transform doc:name="Set Input Params" doc:id="277d27f8-73dc-4928-a8b1-851bff0e3890" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+        <ee:transform doc:name="Set Input Params" doc:id="277d27f8-73dc-4928-a8b1-851bff0e3890">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<flow-ref doc:name="call update-workorder-details" doc:id="320b8a43-a241-4f89-80ae-6be67529c25e" name="update-workorder-details" />
-		<ee:transform doc:name="set response payload" doc:id="c98f18cc-45b4-4662-8c4f-196dd42bd6bb" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+            </ee:message>
+        </ee:transform>
+        <flow-ref doc:name="call update-workorder-details" doc:id="320b8a43-a241-4f89-80ae-6be67529c25e" name="update-workorder-details" />
+        <ee:transform doc:name="set response payload" doc:id="c98f18cc-45b4-4662-8c4f-196dd42bd6bb">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+            </ee:message>
+        </ee:transform>
     </flow>
 </mule>
