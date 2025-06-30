@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</ee:variables>
 		</ee:transform>
 		<logger level="INFO" doc:name="Log SF Request" doc:id="f8117335-ca5b-42ae-903b-dd37228c28b9" message='"Call Salesforce to update product Details" : #[vars.vRequest.Product2ID]' />
-		<salesforce:upsert doc:name="Upsert Product Data" doc:id="1877cc43-6935-4e7f-b263-eb340c70a023" config-ref="Salesforce_Config" objectType="${sf.object.product}" externalIdFieldName="${sf.object.product_external_id}">
+		<salesforce:upsert doc:name="Upsert Product Data" doc:id="1877cc43-6935-4e7f-b263-eb340c70a023" config-ref="Salesforce_Config" objectType="${sf.object.product}" externalIdFieldName="${sf.object.product_external_id}" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="1312a2f4-87a5-44c3-98e6-9129288cee6a" message="Successfully updated product Details for #[vars.vRequest.Product2ID]" />
@@ -22,7 +22,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 </sub-flow>
 	<sub-flow name="fetch-product-details" doc:id="3d3eeec7-85a8-4e70-967e-6e12b550e73d" >
 		<logger level="INFO" doc:name="Log SF Request" doc:id="a2dcf06b-9b8b-462c-8876-b5294414b322" message='"Call Salesforce to fetch product Details" : #[vars.vInpParams.material]' />
-		<salesforce:query doc:name="Fetch Product Details" doc:id="39cb4098-13a1-4df5-a670-7ff8163d347b" config-ref="Salesforce_Config">
+		<salesforce:query doc:name="Fetch Product Details" doc:id="39cb4098-13a1-4df5-a670-7ff8163d347b" config-ref="Salesforce_Config" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:salesforce-query ><![CDATA[${sf.query.fetch.product}]]></salesforce:salesforce-query>
 			<salesforce:parameters ><![CDATA[#[output application/java
 ---

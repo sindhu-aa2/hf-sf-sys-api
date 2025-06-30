@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</ee:variables>
 		</ee:transform>
 		<logger level="INFO" doc:name="Log SF Request" doc:id="d849a71e-34b1-4951-bf54-2680843b7c5c" message='"call upsert for asset details":#[vars.vRequest.Name]'/>
-		<salesforce:upsert doc:name="Upsert" doc:id="4807329b-1ea0-47ea-ba86-89cdd61a9fd7" config-ref="Salesforce_Config" objectType="${sf.object.asset}" externalIdFieldName="${sf.object.asset_external_id}">
+		<salesforce:upsert doc:name="Upsert" doc:id="4807329b-1ea0-47ea-ba86-89cdd61a9fd7" config-ref="Salesforce_Config" objectType="${sf.object.asset}" externalIdFieldName="${sf.object.asset_external_id}" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="9df6b8b9-4078-4a9e-83b3-3d7901eddecf" message='"successfully upserted asset details for":#[vars.vRequest.Name]'/>

@@ -1,4 +1,5 @@
 sf:
+  readtimeout: "120"
   query:
     fetch:
       workOrder: Select Id,Number_Of_Assets__c,WorkTypeId From WorkOrder where Purchase_Order_No__c =':purchaseOrderNo' and Customer_Reference_Number__c=':workTicketNumber'
@@ -23,4 +24,5 @@ sf:
     asset_external_id: Id
     woli: WorkOrderLineItem
     woli_external_id: Id
-    
+
+  

@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">	
 	<sub-flow name="fetch-workOrder-details" doc:id="4eb2be88-e4b8-4229-894d-e8c632a6aebd">
 		<logger level="INFO" doc:name="Log SF Request" doc:id="add5c69d-b6b0-4d7d-8d5e-006c201fadea" message='"Call Salesforce to fetch WorkOrderDetails" : #[vars.vInpParams.purchaseOrderNo]'/>
-		<salesforce:query doc:name="Query" doc:id="2bccb597-cc0f-40fc-9c8f-10f8ef285eff" config-ref="Salesforce_Config">
+		<salesforce:query doc:name="Query" doc:id="2bccb597-cc0f-40fc-9c8f-10f8ef285eff" config-ref="Salesforce_Config" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:salesforce-query><![CDATA[${sf.query.fetch.workOrder}]]></salesforce:salesforce-query>
 			<salesforce:parameters ><![CDATA[#[output application/java
 ---
@@ -29,7 +29,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 			</ee:variables>
 		</ee:transform>
 		<logger level="INFO" doc:name="Log SF Request" doc:id="3cfe3dd3-4d19-4e54-b2a9-7d660b6ee900" message='"Call Salesforce to update work order Details for" : #[vars.vRequest.Id]'/>
-		<salesforce:upsert doc:name="Upsert" doc:id="de9dd807-a8c2-48b0-9a97-7c94b80546bb" config-ref="Salesforce_Config" objectType="${sf.object.workorder}" externalIdFieldName="${sf.object.workorder_external_id}">
+		<salesforce:upsert doc:name="Upsert" doc:id="de9dd807-a8c2-48b0-9a97-7c94b80546bb" config-ref="Salesforce_Config" objectType="${sf.object.workorder}" externalIdFieldName="${sf.object.workorder_external_id}" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="930d32cd-027b-43c5-bc36-d80195ab1a20" message="Successfully updated product Details for #[vars.vRequest.Id]"/>
@@ -43,7 +43,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 			</ee:variables>
 		</ee:transform>
 		<logger level="INFO" doc:name="Log SF Request" doc:id="a722df09-43bc-4a54-8f0d-be4abb383502" message='"call salesforce upsert for ":#[vars.vRequest.WorkOrderId]' />
-		<salesforce:upsert doc:name="Upsert" doc:id="f1c24f50-738f-44a0-aef9-647024214d52" config-ref="Salesforce_Config" objectType="${sf.object.woli}" externalIdFieldName="${sf.object.woli_external_id}">
+		<salesforce:upsert doc:name="Upsert" doc:id="f1c24f50-738f-44a0-aef9-647024214d52" config-ref="Salesforce_Config" objectType="${sf.object.woli}" externalIdFieldName="${sf.object.woli_external_id}" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:records><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="198797a7-23a2-4dfe-8d38-07db79038581" message='"successfully upserted into woli ":#[vars.vRequest.WorkOrderId]' />
