@@ -7,7 +7,7 @@ output application/java
 		"Purchase_Order_No__c":payload.purchaseOrderNo,
 		"Customer_Reference__c":payload.customerRefNo,
 		"WorkTypeId":payload.workTypeId,
-		"Service_Appointment__c": payload.serviceAptmtId deafult "",
+		"Service_Appointment__c": payload.serviceAptmtId,
 		"AssetId":payload.assetId
     }
     
