@@ -13,15 +13,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-variable resource="dwl/sf-upsert-product.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log SF Request" doc:id="f8117335-ca5b-42ae-903b-dd37228c28b9" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting Product details started",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Upserting product details for":vars.vRequest.Product2ID,&#10;	"Payload":payload&#10;}]' />
+		<logger level="INFO" doc:name="Log SF Request" doc:id="f8117335-ca5b-42ae-903b-dd37228c28b9" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting Product details started",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Upserting product details for":vars.vRequest.Product2ID,&#10;	"PDFName":attributes.headers.pdfName&#10;}]' />
 		<salesforce:upsert doc:name="Upsert Product Data" doc:id="1877cc43-6935-4e7f-b263-eb340c70a023" config-ref="Salesforce_Config" objectType="${sf.object.product}" externalIdFieldName="${sf.object.product_external_id}" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="1312a2f4-87a5-44c3-98e6-9129288cee6a" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Succesfully upserted Product details",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Upserting product details for":vars.vRequest.Product2ID,&#10;	"Payload":payload&#10;}]' />
+		<logger level="INFO" doc:name="Log SF Response" doc:id="1312a2f4-87a5-44c3-98e6-9129288cee6a" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Succesfully upserted Product details",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Upserting product details for":vars.vRequest.Product2ID,&#10;	"PDFName":attributes.headers.pdfName&#10;}]' />
 	
 </sub-flow>
 	<sub-flow name="fetch-product-details" doc:id="3d3eeec7-85a8-4e70-967e-6e12b550e73d" >
-		<logger level="INFO" doc:name="Log product query" doc:id="a2dcf06b-9b8b-462c-8876-b5294414b322" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Querying Product details started",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Fetching Product details for":vars.vInpParams.material,&#10;	"Payload":payload&#10;}]'/>
+		<logger level="INFO" doc:name="Log product query" doc:id="a2dcf06b-9b8b-462c-8876-b5294414b322" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Querying Product details started",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Fetching Product details for":vars.vInpParams.material,&#10;	"PDFName":attributes.headers.pdfName&#10;}]'/>
 		<salesforce:query doc:name="Fetch Product Details" doc:id="39cb4098-13a1-4df5-a670-7ff8163d347b" config-ref="Salesforce_Config" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:salesforce-query ><![CDATA[${sf.query.fetch.product}]]></salesforce:salesforce-query>
 			<salesforce:parameters ><![CDATA[#[output application/java
@@ -32,7 +32,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"material" : vars.vInpParams.material
 }]]]></salesforce:parameters>
 		</salesforce:query>
-		<logger level="INFO" doc:name="Log Product query response" doc:id="9f607020-74d4-4113-ab35-f7b66af18447" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully fetched Product details",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Fetching Product details for":vars.vInpParams.material,&#10;	"Payload":payload&#10;}]' />
+		<logger level="INFO" doc:name="Log Product query response" doc:id="9f607020-74d4-4113-ab35-f7b66af18447" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully fetched Product details",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Fetching Product details for":vars.vInpParams.material,&#10;	"PDFName":attributes.headers.pdfName&#10;}]' />
 	
 </sub-flow>
 </mule>
