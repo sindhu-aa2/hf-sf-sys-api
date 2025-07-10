@@ -8,6 +8,7 @@ output application/java
 	  "Onsite_Contact__c":payload.siteContactName,
 	  "Onsite_Email__c":payload.siteContactEmail,
 	  "Onsite_Phone__c":payload.siteContactTelephone,
-	  "Name_of_Person_who_sent_work_order__c":payload.jobOwner
+	  "Name_of_Person_who_sent_work_order__c":payload.jobOwner,
+	  "VZC_PO_Total__c":payload.totalNet
    }
 ]
