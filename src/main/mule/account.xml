@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="fetch-account-details" doc:id="1b81faa6-4ab6-4087-bc73-25e91d545c20" >
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"querying account details started",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Fetching account details for":vars.vInpParams.name,&#10;	"PDFName":attributes.headers.pdfName&#10;}]' doc:name="set vLog" doc:id="b9639d61-cab1-4914-b0b7-91dbb0c4863a" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"querying account details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching account details for":vars.vInpParams.name,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="set vLog" doc:id="b9639d61-cab1-4914-b0b7-91dbb0c4863a" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log account query" doc:id="e1fa061d-800c-4c01-8986-d5ede0ee25e2" message='#[vars.vLog]' />
 		<salesforce:query doc:name="Query" doc:id="272cce93-25b0-4555-a398-89f492d357b3" config-ref="Salesforce_Config" readTimeoutUnit="SECONDS" readTimeout="${sf.readtimeout}">
 			<reconnect />
@@ -17,7 +17,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"name" : vars.vInpParams.name
 }]]]></salesforce:parameters>
 		</salesforce:query>
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"successfully fetched account detail",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Fetching account details for":vars.vInpParams.name,&#10;	"PDFName":attributes.headers.pdfName&#10;}]' doc:name="Set vLog" doc:id="c43c8e9d-6970-4cc4-8555-9bcbedc5ce53" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"successfully fetched account detail",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching account details for":vars.vInpParams.name,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="c43c8e9d-6970-4cc4-8555-9bcbedc5ce53" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log account query response" doc:id="23fb8e34-4396-4570-b4a0-05f53c4db855" message="#[vars.vLog]" />
 	</sub-flow>
 	<sub-flow name="update-account-details" doc:id="1dd388b8-ba39-4c90-b2b9-e7f0ef6017d6" >
@@ -27,10 +27,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-variable resource="dwl/sf-upsert-account.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log SF Request" doc:id="310261cd-65db-4ca5-a480-2de7d3b53d80" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting Account details started",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Upserting account details for":vars.vRequest.Name,&#10;	"PDFName":attributes.headers.pdfName&#10;}]' />
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting Account details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting account details for":vars.vRequest.Name,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set Variable" doc:id="064fa50f-f957-45cc-b808-72c4b92fd640" variableName="vLog"/>
+		<logger level="INFO" doc:name="Log SF Request" doc:id="310261cd-65db-4ca5-a480-2de7d3b53d80" message='#[vars.vLog]' />
 		<salesforce:upsert doc:name="Upsert" doc:id="6d9c22cb-eca8-436c-be9c-cc8708ad3736" config-ref="Salesforce_Config" objectType="${sf.object.account}" externalIdFieldName="${sf.object.account_external_id}" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="0b10c2f9-96af-420c-af9b-fc01d309b35d" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully upserted account details",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Upserting account details for":vars.vRequest.Name,&#10;	"PDFName":attributes.headers.pdfName&#10;}]' />
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully upserted account details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting account details for":vars.vRequest.Name,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set Variable" doc:id="62b448e8-0b92-47cf-85fe-b3bf733baf1e" variableName="vLog"/>
+		<logger level="INFO" doc:name="Log SF Response" doc:id="0b10c2f9-96af-420c-af9b-fc01d309b35d" message="#[vars.vLog]"/>
 	</sub-flow>
 </mule>

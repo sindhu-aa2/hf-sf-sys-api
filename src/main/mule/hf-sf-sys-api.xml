@@ -36,6 +36,8 @@ output application/json
 	"name" : "%" ++ attributes.queryParams.name ++ "%",
 	"zipCode" : attributes.queryParams.zipCode
 }]]></ee:set-variable>
+				<ee:set-variable variableName="vCorrelationId" ><![CDATA[attributes.headers.correlationId]]></ee:set-variable>
+				<ee:set-variable variableName="vPdfName" ><![CDATA[attributes.headers.pdfName]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
         <flow-ref doc:name="Call fetch-account-details" doc:id="cec3e5ae-c79c-46ed-8c11-fd2b343d510f" name="fetch-account-details" />
@@ -58,6 +60,7 @@ output application/json
 {
   "material": attributes.queryParams.externalId
 }]]></ee:set-variable>
+				<ee:set-variable variableName="vCorrelationId" ><![CDATA[attributes.headers.correlationId]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
         <flow-ref doc:name="Call fetch-product-details" doc:id="8a0cc260-a9ed-414b-9241-312ba4a6e88c" name="fetch-product-details" />
