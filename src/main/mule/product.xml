@@ -13,17 +13,17 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-variable resource="dwl/sf-upsert-product.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting Product details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting product details for":vars.vRequest.Product2ID,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="0d5b852d-ee4d-4988-ad84-f98a00d603cf" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting Product details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting product details for":vars.vRequest.Product2ID,&#10;	"payload": payload,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="0d5b852d-ee4d-4988-ad84-f98a00d603cf" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log SF Request" doc:id="f8117335-ca5b-42ae-903b-dd37228c28b9" message="#[vars.vLog]"/>
 		<salesforce:upsert doc:name="Upsert Product Data" doc:id="1877cc43-6935-4e7f-b263-eb340c70a023" config-ref="Salesforce_Config" objectType="${sf.object.product}" externalIdFieldName="${sf.object.product_external_id}" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Succesfully upserted Product details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting product details for":vars.vRequest.Product2ID,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="set vLog" doc:id="6287b6dd-f266-463e-9642-cc7a901b0632" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Succesfully upserted Product details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting product details for":vars.vRequest.Product2ID,&#10;	"payload": payload,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="set vLog" doc:id="6287b6dd-f266-463e-9642-cc7a901b0632" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="1312a2f4-87a5-44c3-98e6-9129288cee6a"/>
 	
 </sub-flow>
 	<sub-flow name="fetch-product-details" doc:id="3d3eeec7-85a8-4e70-967e-6e12b550e73d" >
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Querying Product details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching Product details for":vars.vInpParams.material,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="58b96953-f4ff-408a-ad37-67a2d76b28fa" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Querying Product details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching Product details for":vars.vInpParams.material,&#10;	"payload": payload,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="58b96953-f4ff-408a-ad37-67a2d76b28fa" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log product query" doc:id="a2dcf06b-9b8b-462c-8876-b5294414b322" message='#[vars.vLog]'/>
 		<salesforce:query doc:name="Fetch Product Details" doc:id="39cb4098-13a1-4df5-a670-7ff8163d347b" config-ref="Salesforce_Config" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:salesforce-query ><![CDATA[${sf.query.fetch.product}]]></salesforce:salesforce-query>
@@ -35,7 +35,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"material" : vars.vInpParams.material
 }]]]></salesforce:parameters>
 		</salesforce:query>
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully fetched Product details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching Product details for":vars.vInpParams.material,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="d80b2ee2-afcb-40e2-a48c-9ea5a4d0c411" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully fetched Product details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching Product details for":vars.vInpParams.material,&#10;	"payload": payload,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="d80b2ee2-afcb-40e2-a48c-9ea5a4d0c411" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log Product query response" doc:id="9f607020-74d4-4113-ab35-f7b66af18447" message='#[vars.vLog]' />
 	
 </sub-flow>

@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="fetch-serviceAppointment-details" doc:id="cb280fae-d53b-4773-964a-ff117a285f9e" >
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Querying Service Appointment details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching Service appointment details for":vars.vInpParams.workOrderId,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="2926e89b-0c7b-47cb-815b-733f473ee50a" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Querying Service Appointment details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching Service appointment details for":vars.vInpParams.workOrderId,&#10;	"payload": payload,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="2926e89b-0c7b-47cb-815b-733f473ee50a" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log service aptmt query" doc:id="1fdeb25c-df1d-479a-a12b-49d596b7e7a4" message="#[vars.vLog]"/>
 		<salesforce:query doc:name="Fetch Service Aptmt Details" doc:id="ccdac725-6714-419d-8c13-e0d08b80d243" config-ref="Salesforce_Config">
 			<salesforce:salesforce-query ><![CDATA[${sf.query.fetch.serviceAppointment}]]></salesforce:salesforce-query>
@@ -16,7 +16,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"workOrderId" : vars.vInpParams.workOrderId
 }]]]></salesforce:parameters>
 		</salesforce:query>
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully fetched Service Appointment details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching Service appointment details for":vars.vInpParams.workOrderId,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="35c24ef2-58a8-43fb-b1d1-2b5d8a2e5f35" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully fetched Service Appointment details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching Service appointment details for":vars.vInpParams.workOrderId,&#10;    "payload": payload,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="35c24ef2-58a8-43fb-b1d1-2b5d8a2e5f35" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log service aptmt query response" doc:id="07404288-ef0f-44dc-8229-18821627f2d1" message="#[vars.vLog]"/>
 	</sub-flow>
 	<sub-flow name="update-serviceAppointment-details" doc:id="47e5226c-9855-4070-9373-e3229a5b521c" >
@@ -27,12 +27,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-variable resource="dwl/sf-upsert-serviceAptmt.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting Service Appointment details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting Service Appointment details for":vars.vRequest.Id,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="53f0a30f-67dd-4179-8741-9d6137ef512d" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting Service Appointment details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting Service Appointment details for":vars.vRequest.Id,&#10;	"payload": payload,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="53f0a30f-67dd-4179-8741-9d6137ef512d" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log sf request" doc:id="20fb91c9-9e94-40d3-8475-eceb52162ab6" message="#[vars.vLog]"/>
 		<salesforce:upsert doc:name="Upsert Service Aptmt Details" doc:id="e486bf90-9c81-4159-ba15-587b47c1388a" config-ref="Salesforce_Config" objectType="${sf.object.serviceAptmt}" externalIdFieldName="${sf.object.serviceAptmt_external_id}">
 			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully Upserted Service Appointment details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting Service Appointment details for":vars.vRequest.Id,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="4b5ff08a-719b-4c92-82db-2dddc19b1d7f" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully Upserted Service Appointment details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting Service Appointment details for":vars.vRequest.Id,&#10;	"payload": payload,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="4b5ff08a-719b-4c92-82db-2dddc19b1d7f" variableName="vLog"/>
 		<logger level="INFO" doc:name="log sf response" doc:id="64e21959-dcea-43d9-99e2-74747b4f2d1f" message="#[vars.vLog]"/>
 	</sub-flow>
 </mule>
