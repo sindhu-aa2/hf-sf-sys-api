@@ -10,7 +10,15 @@
                 <http:headers>#[vars.outboundHeaders default {}]</http:headers>
             </http:error-response>
         </http:listener>
-        <apikit:router config-ref="hf-sf-sys-api-config" />
+		<ee:transform doc:name="Transform Message" doc:id="69026cc0-31d3-447f-a47c-f85095158ad6" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="vPdfName" ><![CDATA[attributes.headers.pdfName]]></ee:set-variable>
+				<ee:set-variable variableName="vCorrelationId" ><![CDATA[attributes.headers.correlationId]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<apikit:router config-ref="hf-sf-sys-api-config" />
     </flow>
     <flow name="hf-sf-sys-api-console">
         <http:listener config-ref="hf-sf-sys-api-httpListenerConfig" path="/console/*">
@@ -36,8 +44,6 @@ output application/json
 	"name" : "%" ++ attributes.queryParams.name ++ "%",
 	"zipCode" : attributes.queryParams.zipCode
 }]]></ee:set-variable>
-				<ee:set-variable variableName="vCorrelationId" ><![CDATA[attributes.headers.correlationId]]></ee:set-variable>
-				<ee:set-variable variableName="vPdfName" ><![CDATA[attributes.headers.pdfName]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
         <flow-ref doc:name="Call fetch-account-details" doc:id="cec3e5ae-c79c-46ed-8c11-fd2b343d510f" name="fetch-account-details" />

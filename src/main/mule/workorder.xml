@@ -7,7 +7,8 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">	
 	<sub-flow name="fetch-workOrder-details" doc:id="4eb2be88-e4b8-4229-894d-e8c632a6aebd">
-		<logger level="INFO" doc:name="Log SF Request" doc:id="add5c69d-b6b0-4d7d-8d5e-006c201fadea" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Querying workorder details started",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Fetching workorder details for":vars.vInpParams.purchaseOrderNo,&#10;	"PDFName":attributes.headers.pdfName&#10;}]'/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Querying workorder details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching workorder details for":vars.vInpParams.purchaseOrderNo,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="17f491eb-b628-4448-a8db-19ad77e1b9d3" variableName="vLog"/>
+		<logger level="INFO" doc:name="Log SF Request" doc:id="add5c69d-b6b0-4d7d-8d5e-006c201fadea" message="#[vars.vLog]"/>
 		<salesforce:query doc:name="Query" doc:id="2bccb597-cc0f-40fc-9c8f-10f8ef285eff" config-ref="Salesforce_Config" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:salesforce-query><![CDATA[${sf.query.fetch.workOrder}]]></salesforce:salesforce-query>
 			<salesforce:parameters ><![CDATA[#[output application/java
@@ -18,7 +19,8 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 }]]]></salesforce:parameters>
 		
 </salesforce:query>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="3dd8d23f-a02c-44bc-94bb-4b52dafb556a" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully fetched workorder details",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Fetching workorder details for":vars.vInpParams.purchaseOrderNo,&#10;	"PDFName":attributes.headers.pdfName&#10;}]' />
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully fetched workorder details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Fetching workorder details for":vars.vInpParams.purchaseOrderNo,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="f1614e09-e5a5-4216-94e9-d4b0e68b5d93" variableName="vLog"/>
+		<logger level="INFO" doc:name="Log SF Response" doc:id="3dd8d23f-a02c-44bc-94bb-4b52dafb556a" message="#[vars.vLog]"/>
 	</sub-flow>
 	<sub-flow name="update-workorder-details" doc:id="c733f122-9ee6-4a48-835b-ade28b3bf95b" >
 		<ee:transform doc:name="SF Payload" doc:id="725f1749-bd9c-4291-9d1a-4f8c25a9e8bd">
@@ -28,11 +30,13 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 				<ee:set-variable resource="dwl/sf-upsert-workorder.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log SF Request" doc:id="3cfe3dd3-4d19-4e54-b2a9-7d660b6ee900" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting workorder details started",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Upserting workorder details for":vars.vRequest.Id,&#10;	"PDFName":attributes.headers.pdfName&#10;}]'/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting workorder details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting workorder details for":vars.vRequest.Id,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="df9613ef-a338-41d2-9422-18e7c818526b" variableName="vLog"/>
+		<logger level="INFO" doc:name="Log SF Request" doc:id="3cfe3dd3-4d19-4e54-b2a9-7d660b6ee900" message="#[vars.vLog]"/>
 		<salesforce:upsert doc:name="Upsert" doc:id="de9dd807-a8c2-48b0-9a97-7c94b80546bb" config-ref="Salesforce_Config" objectType="${sf.object.workorder}" externalIdFieldName="${sf.object.workorder_external_id}" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="930d32cd-027b-43c5-bc36-d80195ab1a20" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully Upserted workorder details",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Upserting workorder details for":vars.vRequest.Id,&#10;	"PDFName":attributes.headers.pdfName&#10;}]'/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully Upserted workorder details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting workorder details for":vars.vRequest.Id,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="83f7598c-1884-4222-8f05-3a8d91850fcb" variableName="vLog"/>
+		<logger level="INFO" doc:name="Log SF Response" doc:id="930d32cd-027b-43c5-bc36-d80195ab1a20" message="#[vars.vLog]"/>
 	</sub-flow>
 	<sub-flow name="update-wo-lineItems-details" doc:id="d661eee9-e79d-4369-aa77-bb8eb129fa6f">
 		<ee:transform doc:name="SF Payload" doc:id="0908de53-0774-4575-b468-4a3780c6955e">
@@ -42,11 +46,13 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 				<ee:set-variable resource="dwl/sf-upsert-wo-lineItems.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Log SF Request" doc:id="a722df09-43bc-4a54-8f0d-be4abb383502" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting woli details started",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Upserting woli details for":vars.vRequest.WorkOrderId,&#10;	"PDFName":attributes.headers.pdfName&#10;}]' />
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting woli details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting woli details for":vars.vRequest.WorkOrderId,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set vLog" doc:id="960cf3f8-7a05-4cd4-a17e-57a37253943d" variableName="vLog"/>
+		<logger level="INFO" doc:name="Log SF Request" doc:id="a722df09-43bc-4a54-8f0d-be4abb383502" message="#[vars.vLog]"/>
 		<salesforce:upsert doc:name="Upsert" doc:id="f1c24f50-738f-44a0-aef9-647024214d52" config-ref="Salesforce_Config" objectType="${sf.object.woli}" externalIdFieldName="${sf.object.woli_external_id}" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:records><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
-		<logger level="INFO" doc:name="Log SF Response" doc:id="198797a7-23a2-4dfe-8d38-07db79038581" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully upserted woli details",&#10;	"coorelationId":attributes.headers.correlationId,&#10;	"Upserting woli details for":vars.vRequest.WorkOrderId,&#10;	"PDFName":attributes.headers.pdfName&#10;}]' />
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully upserted woli details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting woli details for":vars.vRequest.WorkOrderId,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set Variable" doc:id="21d17be2-02cb-44db-891c-2c85d1d5a7ea" variableName="vLog"/>
+		<logger level="INFO" doc:name="Log SF Response" doc:id="198797a7-23a2-4dfe-8d38-07db79038581" message="#[vars.vLog]"/>
 	</sub-flow>
 	
 	

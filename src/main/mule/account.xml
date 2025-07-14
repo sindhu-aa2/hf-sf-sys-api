@@ -27,12 +27,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-variable resource="dwl/sf-upsert-account.dwl" variableName="vRequest" />
 			</ee:variables>
 		</ee:transform>
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting Account details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting account details for":vars.vRequest.Name,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set Variable" doc:id="064fa50f-f957-45cc-b808-72c4b92fd640" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Upserting Account details started",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting account details for":vars.vRequest.Name,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="set vLog" doc:id="064fa50f-f957-45cc-b808-72c4b92fd640" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log SF Request" doc:id="310261cd-65db-4ca5-a480-2de7d3b53d80" message='#[vars.vLog]' />
 		<salesforce:upsert doc:name="Upsert" doc:id="6d9c22cb-eca8-436c-be9c-cc8708ad3736" config-ref="Salesforce_Config" objectType="${sf.object.account}" externalIdFieldName="${sf.object.account_external_id}" readTimeout="${sf.readtimeout}" readTimeoutUnit="SECONDS">
 			<salesforce:records ><![CDATA[#[vars.vRequest]]]></salesforce:records>
 		</salesforce:upsert>
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully upserted account details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting account details for":vars.vRequest.Name,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="Set Variable" doc:id="62b448e8-0b92-47cf-85fe-b3bf733baf1e" variableName="vLog"/>
+		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"message":"Successfully upserted account details",&#10;	"coorelationId":vars.vCorrelationId,&#10;	"Upserting account details for":vars.vRequest.Name,&#10;	"PDFName":vars.vPdfName&#10;}]' doc:name="set vLog" doc:id="62b448e8-0b92-47cf-85fe-b3bf733baf1e" variableName="vLog"/>
 		<logger level="INFO" doc:name="Log SF Response" doc:id="0b10c2f9-96af-420c-af9b-fc01d309b35d" message="#[vars.vLog]"/>
 	</sub-flow>
 </mule>
