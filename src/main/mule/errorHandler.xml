@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<error-handler name="errorHandlerError_Handler" doc:id="7185880a-c3cd-4197-9719-d7d68064057b" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="3dc9e08d-6990-485c-9f19-2883c064c9d7" type="ANY">
+			<logger level="INFO" doc:name="Logger" doc:id="23c2bfbc-843e-4ea9-8867-23620a5835af" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"Info":"Error in Mulesoft Sys API",&#10;	"Po Name":vars.filename,&#10;	"ErrorType": (error.errorType.namespace) ++ ":" ++ (error.errorType.identifier),&#10;	"ErrorMessage": error.description,&#10;	"Flow Name": (error.failingComponent splitBy"/")[0],&#10;	"Timestamp": now()&#10;}]'/>
+		</on-error-propagate>
+	</error-handler>
+</mule>
