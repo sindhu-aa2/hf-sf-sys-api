@@ -5,7 +5,7 @@
     </http:listener-config>
     <apikit:config name="hf-sf-sys-api-config" api="resource::ffc58900-c2c9-4222-abfa-c90d25c27af9:hf-sf-sys-api-spec:1.0.3:raml:zip:hf-sf-sys-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="b7cb3d0b-c410-488b-9e19-7571a246229f">
-        <salesforce:oauth-user-pass-connection consumerKey="${secure::sf.consumerKey}" consumerSecret="${secure::sf.consumerSecret}" username="mulesoft@hfstaging.com" password="Integration@123" securityToken="${secure::sf.securityToken}" tokenEndpoint="https://handsfreegroup--hfstaging.sandbox.my.salesforce.com/services/oauth2/token" />
+        <salesforce:oauth-user-pass-connection consumerKey="${secure::sf.consumerKey}" consumerSecret="${secure::sf.consumerSecret}" username="mulesoft@handsfree.com" password="K2Q?#Fft?!" securityToken="${secure::sf.securityToken}"/>
     </salesforce:sfdc-config>
     <secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="52e6afca-921b-4cc9-abaf-9afe4c2e729c" file="${env.yaml}" key="${secureKey}" />
     <configuration-properties doc:name="Configuration properties" doc:id="cc7f473e-2d1c-4bc8-8d10-475c8b363771" file="${env}.yaml" />
