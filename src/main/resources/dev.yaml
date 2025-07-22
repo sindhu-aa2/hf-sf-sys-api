@@ -3,3 +3,5 @@ sf:
     recordType: "0121P000000kDQOQA2"
   asset:
     recordType: "0121P000000RRVeQAO"
+  username: "mulesoft@hfstaging.com"
+  tokenEndpoint: "https://handsfreegroup--hfstaging.sandbox.my.salesforce.com/services/oauth2/token"
