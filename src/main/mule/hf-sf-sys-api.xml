@@ -33,7 +33,7 @@
         <apikit:console config-ref="hf-sf-sys-api-config" />
     </flow>
     <flow name="get:\account:hf-sf-sys-api-config">
-        <set-variable value="#[%dw 2.0&#10;var name=attributes.queryParams.name&#10;output application/json&#10;---&#10;if(name contains  &quot;'&quot;) payload.message replace &quot;'&quot; with &quot;\'&quot;&#10;else name]" doc:name="Set Variable" doc:id="33c6f326-2e64-48d1-8d3a-445c157b7bc3" variableName="name"/>
+        <set-variable value="#[%dw 2.0&#10;var name=attributes.queryParams.name&#10;output application/json&#10;---&#10;if(name contains &quot;'&quot;) name replace &quot;'&quot; with &quot;\'&quot;&#10;else name]" doc:name="Set Variable" doc:id="33c6f326-2e64-48d1-8d3a-445c157b7bc3" variableName="name"/>
 		<ee:transform doc:name="Set Input Param" doc:id="e1f424ee-f2fa-40e7-84ff-c18d356098d2">
             <ee:message />
             <ee:variables>
